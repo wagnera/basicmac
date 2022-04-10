@@ -337,6 +337,10 @@ void os_wlsbf3 (u1_t* buf, u4_t value);
 #ifndef os_crc16
 u2_t os_crc16 (u1_t* d, uint len);
 #endif
+#ifndef os_queryTimeCriticalJobs
+//! Return non-zero if any jobs are scheduled between now and now+time.
+bit_t os_queryTimeCriticalJobs(ostime_t time);
+#endif
 
 #if defined(CFG_budha) // XXX:obsoleted by budha2 (service)
 // HAL support required by BUDHA:

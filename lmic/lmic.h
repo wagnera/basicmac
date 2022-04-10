@@ -566,6 +566,11 @@ void LMIC_setSession (u4_t netid, devaddr_t devaddr, const u1_t* nwkKey,
         const u1_t* appKey);
 void LMIC_setLinkCheckMode (bit_t enabled);
 void LMIC_setLinkCheck (u4_t limit, u4_t delay);
+
+u4_t LMIC_getSeqnoUp    (void);
+u4_t LMIC_setSeqnoUp    (u4_t);
+void LMIC_getSessionKeys (u4_t *netid, devaddr_t *devaddr, uint8_t* nwkKey, uint8_t* artKey);
+
 void LMIC_askForLinkCheck (void);
 
 dr_t     LMIC_fastestDr (); // fastest UP datarate

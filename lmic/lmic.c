@@ -3438,6 +3438,33 @@ void LMIC_setLinkCheck (u4_t limit, u4_t delay) {
     LMIC.adrAckReq = LINK_CHECK_INIT;
 }
 
+// \brief return the uplink sequence number for the next transmission.
+// This simple getter returns the uplink sequence number maintained by the LMIC engine.
+// The caller should store the value and restore it (see LMIC_setSeqnoUp) on
+// LMIC initialization to ensure monotonically increasing sequence numbers.
+// It's also useful in debugging, as it allows you to correlate a debug trace event with
+// a specific packet sent over the air.
+u4_t LMIC_getSeqnoUp(void) {
+    return LMIC.seqnoUp;
+}
+
+// \brief set the uplink sequence number for the next transmission.
+// Use the function on startup to ensure that the next transmission uses
+// a sequence number higher than the last transmission.
+u4_t LMIC_setSeqnoUp(u4_t seq_no) {
+    u4_t last = LMIC.seqnoUp;
+    LMIC.seqnoUp = seq_no;
+    return last;
+}
+
+// \brief return the current session keys returned from join.
+void LMIC_getSessionKeys (u4_t *netid, devaddr_t *devaddr, uint8_t* nwkKey, uint8_t* artKey) {
+    *netid = LMIC.netid;
+    *devaddr = LMIC.devaddr;
+    memcpy(artKey, LMIC.lceCtx.appSKey, sizeof(LMIC.lceCtx.appSKey));
+    memcpy(nwkKey, LMIC.lceCtx.nwkSKey, sizeof(LMIC.lceCtx.nwkSKey));
+}
+
 bit_t LMIC_setupChannel (u1_t chidx, freq_t freq, u2_t drmap) {
     if (REG_IS_FIX()) {
         (void)chidx; (void)freq; (void)drmap; // unused

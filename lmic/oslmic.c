@@ -245,3 +245,13 @@ void os_logEv (uint8_t evcat, uint8_t evid, uint32_t evparam) {
         return;
     hal_logEv(evcat, evid, evparam);
 }
+
+// return true if there are any jobs scheduled within time ticks from now.
+// return false if any jobs scheduled are at least time ticks in the future.
+bit_t os_queryTimeCriticalJobs(ostime_t time) {
+    if (OS.scheduledjobs &&
+        OS.scheduledjobs->deadline - os_getTime() < time)
+        return 1;
+    else
+        return 0;
+}
